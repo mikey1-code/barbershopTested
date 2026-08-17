@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opinie — ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+    /* ===== OPINIE — style specyficzne dla tej podstrony ===== */
+    /* Korzysta wyłącznie ze zmiennych i konwencji z styles.css (brak własnej palety) */
+
+    .opinie-section{ max-width: 1180px; margin: 0 auto; }
+
+    /* ---- Podsumowanie oceny ---- */
+    .rating-summary{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 44px;
+        flex-wrap: wrap;
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 36px 44px;
+        margin: 0 auto 64px;
+        max-width: 780px;
+    }
+    .rating-score{ text-align: center; min-width: 140px; }
+    .rating-score .num{
+        font-family: 'Fraunces', serif;
+        font-size: 52px;
+        color: var(--ivory);
+        line-height: 1;
+    }
+    .rating-score .stars{ margin: 10px 0 8px; justify-content: center; }
+    .rating-score .count{ font-size: 13px; color: var(--stone); }
+
+    .rating-divider{ width: 1px; align-self: stretch; background: var(--line); }
+
+    .rating-side{ display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+    .google-badge{ display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ivory); }
+    .google-badge svg{ width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ---- Siatka opinii ---- */
+    .reviews-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+    }
+
+    .review-card{
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        transition: border-color 0.2s;
+    }
+    .review-card:hover{ border-color: var(--brass); }
+
+    .review-head{ display: flex; align-items: center; gap: 12px; }
+    .review-avatar{
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid var(--brass);
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Fraunces', serif;
+        font-size: 17px;
+        color: var(--brass-light);
+        background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.08), transparent 65%);
+        flex-shrink: 0;
+    }
+    .review-who{ display: flex; flex-direction: column; gap: 2px; }
+    .review-name{ font-size: 14.5px; color: var(--ivory); font-weight: 500; }
+    .review-date{ font-size: 12px; color: var(--stone); }
+    .review-google-icon{ margin-left: auto; width: 18px; height: 18px; opacity: 0.85; flex-shrink: 0; }
+
+    .review-stars{ display: flex; gap: 3px; }
+    .review-stars svg{ width: 15px; height: 15px; }
+
+    .review-text{ font-size: 14px; line-height: 1.75; color: var(--stone); }
+
+    .rating-score .stars svg,
+    .review-stars svg{ fill: var(--brass); }
+    .star-empty{ fill: none !important; stroke: var(--line); stroke-width: 1.5; }
+
+    @media (max-width: 560px){
+        .rating-summary{ flex-direction: column; padding: 30px 26px; }
+        .rating-divider{ width: 100%; height: 1px; }
+        .rating-side{ align-items: center; text-align: center; }
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">ASA<span>Akademia Szkoleniowa Adrar</span></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html" class="active">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <p class="hero-eyebrow">Zaufanie Kursantów i Klientów</p>
+    <h1 class="hero-title">Opinie</h1>
+    <p class="hero-sub">Zobacz, co mówią osoby, które ukończyły szkolenie lub skorzystały z naszych usług.</p>
+</div>
+
+<section class="opinie-section">
+    <p class="section-eyebrow">Google Reviews</p>
+    <h2 class="section-title">Co Mówią Nasi Kursanci</h2>
+    <div class="divider-center"></div>
+    <p class="section-intro">Prawdziwe opinie zebrane z naszej wizytówki Google — bez skrótów i bez wybierania tylko tych najlepszych.</p>
+
+    <div class="rating-summary">
+        <div class="rating-score">
+            <div class="num" id="avg-score">–</div>
+            <div class="stars" id="avg-stars" style="display:flex;"></div>
+            <div class="count" id="review-count">Ładowanie opinii…</div>
+        </div>
+        <div class="rating-divider"></div>
+        <div class="rating-side">
+            <div class="google-badge">
+                <svg viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                Opinie Google
+            </div>
+            <a href="#" id="google-link" class="btn-primary" target="_blank" rel="noopener">Zostaw opinię w Google</a>
+        </div>
+    </div>
+
+    <div class="reviews-grid" id="reviews-grid"></div>
+</section>
+
+<footer>
+    <div class="footer-logo">ASA</div>
+    <p class="footer-copy">&copy; 2026 ASA — Akademia Szkoleniowa Adrar. Wszelkie prawa zastrzeżone.</p>
+    <ul class="footer-links">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</footer>
+
+<script>
+    /* =========================================================================
+       JAK DODAĆ NOWĄ OPINIĘ Z GOOGLE
+       -------------------------------------------------------------------------
+       1. Wejdź na wizytówkę Google Firmy (Google Maps / wyszukiwarka) → Opinie.
+       2. Dla każdej opinii, którą chcesz pokazać, dopisz nowy obiekt do tablicy
+          REVIEWS poniżej i uzupełnij pola:
+            name    -> imię i nazwisko autora (tak jak w Google)
+            rating  -> ocena 1-5 (liczba gwiazdek)
+            date    -> data tak jak pokazuje Google, np. "2 tygodnie temu"
+            text    -> treść opinii (skopiuj i wklej)
+       3. Zapisz plik — karta pojawi się automatycznie, nic więcej nie trzeba
+          klikać w HTML-u.
+       4. Podmień link w GOOGLE_REVIEW_URL na link do wystawiania opinii
+          w Twojej wizytówce Google (Profil Firmy → "Poproś o opinie").
+       ========================================================================= */
+
+    const GOOGLE_REVIEW_URL = "https://www.google.com/search?client=firefox-b-d&hs=aoYV&sca_esv=c3faaa4084c3cbf9&cs=0&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rOlu4jDqmcsRYM2aDq7-s1feHFeLkyDl4T56XsIuYCh46uJKMR9jd1XdF7om4cTEGF3K4eewYUkotX8rXoRU-ycWZZH8GDnx1BtFFnmA8GZ6-G6AsrBCA3nX87thUsfrUDQMdbbsYzQJBvaAZ-gtT6pZpzUA&q=Centrum+Szkoleniowe+Omerta+-+CSO+Opinie&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wmXFbCRF1QtcXXmuwnnH-UerYO6oyo-JRHSLW_fsUG5bis4v8ob1w99Y0iWGHQgrBLvL65U1MhZxxwVnZKBvuSEtT5raSoowfSwwcIkNKCGkJIE_w%3D%3D&hl=pl-PL&sa=X&ved=2ahUKEwjm4aXj98WVAxVtR_EDHfoHMvEQ_4MLegQIFBAO&biw=1920&bih=955&dpr=1";
+
+    const REVIEWS = [
+        {
+            name: "Go Mi",
+            rating: 5,
+            date: "3 tygodnie temu",
+            text: "Świetnie wyposażone centrum szkoleniowe z cudowną dawką wiedzy i umiejętności jakie przekazuje Imad !"
+        },
+        {
+            name: "jacky leey",
+            rating: 5,
+            date: "3 miesiące temu",
+            text: "Najlepsze szkolenia we Wrocławiu!😊 Idelane podejście do kursanta, dużo cierpliwości i cudowna atmosfera!😁 Ogromnie polecam Imada, szkoleniowca w zawodzie Barbera!👌"
+        },
+        {
+            name: "Henrique Nascimento",
+            rating: 5,
+            date: "2 miesiące temu",
+            text: "Gorąco polecam. Za każdym razem, gdy tam jestem, to nowe doświadczenie. Cały personel jest bardzo przyjazny, a komunikacja i obsługa są doskonałe, ze szczególnym uwzględnieniem instruktora Imada"
+        }
+        // ⬇ Dodawaj kolejne opinie tutaj, po przecinku, w tym samym formacie
+    ];
+
+    function starsSVG(rating, size = 15) {
+        let out = "";
+        for (let i = 1; i <= 5; i++) {
+            const filled = i <= rating;
+            out += `<svg viewBox="0 0 24 24" class="${filled ? "" : "star-empty"}"><path d="M12 2l2.9 6.26 6.9.6-5.2 4.62 1.57 6.78L12 16.9l-6.17 3.36 1.57-6.78L2.2 8.86l6.9-.6z"/></svg>`;
+        }
+        return out;
+    }
+
+    function renderReviews() {
+        const grid = document.getElementById("reviews-grid");
+        grid.innerHTML = REVIEWS.map(r => {
+            const initial = r.name.trim().charAt(0).toUpperCase();
+            return `
+                <div class="review-card">
+                    <div class="review-head">
+                        <div class="review-avatar">${initial}</div>
+                        <div class="review-who">
+                            <span class="review-name">${r.name}</span>
+                            <span class="review-date">${r.date}</span>
+                        </div>
+                        <svg class="review-google-icon" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                    </div>
+                    <div class="review-stars">${starsSVG(r.rating)}</div>
+                    <p class="review-text">${r.text}</p>
+                </div>
+            `;
+        }).join("");
+
+        const avg = REVIEWS.reduce((s, r) => s + r.rating, 0) / REVIEWS.length;
+        document.getElementById("avg-score").textContent = avg.toFixed(1);
+        document.getElementById("avg-stars").innerHTML = starsSVG(Math.round(avg), 20);
+        document.getElementById("review-count").textContent = `Na podstawie ${REVIEWS.length} opinii w Google`;
+        document.getElementById("google-link").href = GOOGLE_REVIEW_URL;
+    }
+
+    renderReviews();
+</script>
+
+</body>
+</html>

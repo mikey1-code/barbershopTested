@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umów Termin Szkolenia — ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">ASA<span>Akademia Szkoleniowa Adrar</span></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html" class="active">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <p class="hero-eyebrow">Szkolenie w Twoim Salonie</p>
+    <h1 class="hero-title">Umów Szkolenie</h1>
+    <p class="hero-sub">Wypełnij formularz, a zorganizujemy szkolenie bezpośrednio w Twoim salonie/barbershopie. Potwierdzimy termin telefonicznie w ciągu 24 godzin.</p>
+</div>
+
+<section>
+    <div class="booking-layout">
+        <div class="booking-info">
+            <p class="section-eyebrow">Jak To Działa</p>
+            <h2 class="section-title">Trzy Proste Kroki</h2>
+            <div class="divider-center"></div>
+            <div class="booking-steps">
+                <div class="booking-step">
+                    <span class="step-num">01</span>
+                    <span class="step-text"><b>Wypełnij formularz</b> — podaj dane kontaktowe i adres salonu.</span>
+                </div>
+                <div class="booking-step">
+                    <span class="step-num">02</span>
+                    <span class="step-text"><b>Potwierdzenie telefoniczne</b> — oddzwonimy, by ustalić szczegóły.</span>
+                </div>
+                <div class="booking-step">
+                    <span class="step-num">03</span>
+                    <span class="step-text"><b>Szkolenie u Ciebie</b> — 5-dniowy program realizowany w Twoim salonie.</span>
+                </div>
+            </div>
+        </div>
+
+        <form class="booking-form" id="booking-form">
+            <a href="terminy.html" target="_blank" class="btn-ghost" style="text-align:center; margin-bottom: 6px;">Pokaż Zajęte Terminy</a>
+            <a href="mobilny-barber.html" class="btn-ghost" style="text-align:center; margin-bottom: 6px;">Szukasz jednorazowej wizyty? Umów Mobilnego Barbera →</a>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Imię</label>
+                    <input type="text" id="imie" placeholder="Jan" required>
+                </div>
+                <div class="form-group">
+                    <label>Nazwisko</label>
+                    <input type="text" id="nazwisko" placeholder="Kowalski" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="jan@przyklad.pl" required>
+                </div>
+                <div class="form-group">
+                    <label>Numer Telefonu</label>
+                    <input type="tel" id="telefon" placeholder="+48 000 000 000" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adres Salonu</label>
+                <input type="text" id="adres" placeholder="Ulica, numer, miasto" required>
+            </div>
+            <div class="form-group">
+                <label>Rodzaj Szkolenia</label>
+                <select id="usluga" required>
+                    <option value="">Wybierz rodzaj szkolenia</option>
+                    <option>Szkolenie w pełni refundowane (100%)</option>
+                    <option>Szkolenie częściowo refundowane (80%)</option>
+                    <option>Szkolenie płatne</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Data Rozpoczęcia Szkolenia</label>
+                <input type="date" id="data" required>
+                <p style="font-size: 13px; color: var(--stone); margin-top: 2px;">Szkolenie trwa 5 dni roboczych od wybranej daty.</p>
+            </div>
+            <div id="occupied-box" class="booked-times-info"></div>
+            <div class="form-group">
+                <label>Uwagi (opcjonalnie)</label>
+                <textarea id="uwagi" placeholder="Dodatkowe informacje..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 17px;" id="submit-btn">Umów się na szkolenie</button>
+            <p id="form-message" style="text-align:center; font-size: 13px; margin-top: 4px;"></p>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">ASA</div>
+    <p class="footer-copy">&copy; 2026 ASA — Akademia Szkoleniowa Adrar. Wszelkie prawa zastrzeżone.</p>
+    <ul class="footer-links">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</footer>
+
+<script>
+    const API_URL = "http://127.0.0.1:8000"
+    const TRAINING_DAYS = 5
+
+    // usługi, które oznaczają "szkolenie stacjonarne" (blokują 5 dni pod rząd)
+    // każda inna wartość `service` traktowana jest jako rezerwacja mobilnego barbera (blokuje tylko 1 dzień)
+    const TRAINING_SERVICES = [
+        "Szkolenie w pełni refundowane (100%)",
+        "Szkolenie częściowo refundowane (80%)",
+        "Szkolenie płatne"
+    ]
+    function isTraining(b){ return TRAINING_SERVICES.includes(b.service) }
+
+    const form = document.getElementById("booking-form")
+    const submitBtn = document.getElementById("submit-btn")
+    const message = document.getElementById("form-message")
+    const dateInput = document.getElementById("data")
+    const occupiedBox = document.getElementById("occupied-box")
+
+    let occupiedDates = new Set() // wszystkie dni zajęte (przez inne szkolenia LUB przez mobilnego barbera) jako stringi "YYYY-MM-DD"
+    let conflictDates = []        // dni z NASZEGO wybranego zakresu, które akurat kolidują
+
+    function pad(n){ return n.toString().padStart(2, "0") }
+
+    // zwraca tablicę "YYYY-MM-DD" dla `days` kolejnych dni zaczynając od `startDateStr`
+    function getDateRange(startDateStr, days) {
+        const start = new Date(startDateStr + "T00:00:00")
+        const range = []
+        for (let i = 0; i < days; i++) {
+            const d = new Date(start)
+            d.setDate(d.getDate() + i)
+            range.push(`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`)
+        }
+        return range
+    }
+
+    // pobiera wszystkie rezerwacje: szkolenia rozbija na 5-dniowe bloki zajętych dni,
+    // rezerwacje mobilnego barbera blokują wyłącznie swój pojedynczy dzień
+    async function loadOccupiedDates() {
+        try {
+            const response = await fetch(`${API_URL}/bookings/`)
+            const bookings = await response.json()
+
+            occupiedDates = new Set()
+            bookings.forEach(b => {
+                if (isTraining(b)) {
+                    getDateRange(b.date, TRAINING_DAYS).forEach(d => occupiedDates.add(d))
+                } else {
+                    occupiedDates.add(b.date)
+                }
+            })
+        } catch (error) {
+            console.error("Nie udało się pobrać rezerwacji:", error)
+        }
+    }
+
+    // po wybraniu daty sprawdza czy 5-dniowy zakres koliduje z już zajętymi dniami
+    // (kolizja = inne szkolenie w tym zakresie LUB dzień zarezerwowany przez mobilnego barbera)
+    function checkRangeAvailability() {
+        const selectedDate = dateInput.value
+        if (!selectedDate) {
+            occupiedBox.classList.remove("visible")
+            conflictDates = []
+            return
+        }
+
+        const myRange = getDateRange(selectedDate, TRAINING_DAYS)
+        conflictDates = myRange.filter(d => occupiedDates.has(d))
+
+        occupiedBox.classList.add("visible")
+
+        if (conflictDates.length === 0) {
+            occupiedBox.classList.add("empty")
+            occupiedBox.textContent = `✓ Cały 5-dniowy termin (${myRange[0]} – ${myRange[4]}) jest wolny.`
+        } else {
+            occupiedBox.classList.remove("empty")
+            occupiedBox.innerHTML = "Kolizja w tym zakresie (inne szkolenie lub rezerwacja mobilnego barbera), zajęte dni: " +
+                conflictDates.map(d => `<span class="slot">${d}</span>`).join("")
+        }
+    }
+
+    dateInput.addEventListener("change", async () => {
+        occupiedBox.classList.add("visible")
+        occupiedBox.textContent = "Sprawdzanie dostępności..."
+        await loadOccupiedDates()
+        checkRangeAvailability()
+    })
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault() // zatrzymuje przeładowanie strony
+
+        message.textContent = ""
+
+        // blokujemy wysłanie jeśli wybrany 5-dniowy zakres koliduje z innym szkoleniem
+        if (conflictDates.length > 0) {
+            message.style.color = "#808080"
+            message.textContent = "Wybrany termin koliduje z innym szkoleniem — wybierz inną datę rozpoczęcia."
+            return
+        }
+
+        submitBtn.disabled = true
+        submitBtn.textContent = "Wysyłanie..."
+
+        const imie = document.getElementById("imie").value
+        const nazwisko = document.getElementById("nazwisko").value
+        const email = document.getElementById("email").value
+        const telefon = document.getElementById("telefon").value
+        const adres = document.getElementById("adres").value
+        const usluga = document.getElementById("usluga").value
+        const data = document.getElementById("data").value
+        const uwagi = document.getElementById("uwagi").value
+
+        try {
+            // KROK 1 - tworzymy usera w backendzie
+            const userResponse = await fetch(`${API_URL}/users/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: imie,
+                    surname: nazwisko,
+                    email: email,
+                    phone: telefon
+                })
+            })
+
+            if (!userResponse.ok) throw new Error("Błąd przy tworzeniu użytkownika")
+            const user = await userResponse.json()
+
+            // KROK 2 - tworzymy booking podpięty pod usera
+            // godzina nie jest tu istotna (szkolenie trwa 5 dni), więc wysyłamy stałą wartość wymaganą przez backend
+            const bookingResponse = await fetch(`${API_URL}/bookings/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    date: data,
+                    time: "09:00",
+                    service: usluga,
+                    address: adres,
+                    notes: uwagi,
+                    user_id: user.id
+                })
+            })
+
+            if (!bookingResponse.ok) throw new Error("Błąd przy tworzeniu rezerwacji")
+
+            message.style.color = "#ffffff"
+            message.textContent = "✓ Zgłoszenie wysłane! Zadzwonimy, aby potwierdzić termin szkolenia."
+            form.reset()
+            occupiedBox.classList.remove("visible")
+            conflictDates = []
+
+        } catch (error) {
+            message.style.color = "#808080"
+            message.textContent = "Coś poszło nie tak. Sprawdź czy backend działa i spróbuj ponownie."
+            console.error(error)
+        } finally {
+            submitBtn.disabled = false
+            submitBtn.textContent = "Umów się na szkolenie"
+        }
+    })
+</script>
+
+</body>
+</html>

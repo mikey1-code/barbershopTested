@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+    .cert-grid{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 90px;
+    }
+    .cert-item{
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: var(--bg-panel);
+        transition: border-color 0.2s;
+    }
+    .cert-item:hover{ border-color: var(--brass); }
+    .cert-item img{
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        display: block;
+    }
+    .cert-caption{
+        padding: 12px 14px;
+        font-size: 13px;
+        color: var(--stone);
+        border-top: 1px solid var(--line);
+        text-align: center;
+    }
+    @media (max-width: 900px){
+        .cert-grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">ASA<span>Akademia Szkoleniowa Adrar</span></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <p class="hero-eyebrow">Certyfikaty i Realizacje</p>
+    <h1 class="hero-title">Portfolio</h1>
+    <p class="hero-sub">Zobacz nasze certyfikaty potwierdzające kwalifikacje oraz zdjęcia prac naszych kursantów i klientów.</p>
+</div>
+
+<section>
+    <p class="section-eyebrow">Kwalifikacje</p>
+    <h2 class="section-title">Certyfikaty</h2>
+    <div class="divider-center"></div>
+
+    <div class="cert-grid">
+        <div class="cert-item">
+            <img src="ce1.jpg" alt="Certyfikat 1">
+        </div>
+        <div class="cert-item">
+            <img src="ce2.jpg" alt="Certyfikat 2">
+        </div>
+        <div class="cert-item">
+            <img src="ce3.jpg" alt="Certyfikat 3">
+        </div>
+        <div class="cert-item">
+            <img src="ce4.jpg" alt="Certyfikat 4">
+        </div>
+    </div>
+
+    <p class="section-eyebrow">Nasze Prace</p>
+    <h2 class="section-title">Realizacje</h2>
+    <div class="divider-center"></div>
+    <div class="portfolio-grid">
+        <div class="portfolio-item">
+            <img src="IMG_5145111111.jpg" alt="Strzyżenie 1">
+            <div class="portfolio-overlay"><span class="portfolio-label"></span></div>
+        </div>
+        <div class="portfolio-item">
+            <img src="IMG_0437.jpg" alt="Strzyżenie 2">
+            <div class="portfolio-overlay"><span class="portfolio-label"></span></div>
+        </div>
+        <div class="portfolio-item">
+            <img src="IMG_3294.jpg" alt="Strzyżenie 3">
+            <div class="portfolio-overlay"><span class="portfolio-label"></span></div>
+        </div>
+        <div class="portfolio-item">
+            <img src="IMG_0423.jpg" alt="Strzyżenie 4">
+            <div class="portfolio-overlay"><span class="portfolio-label"></span></div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">ASA</div>
+    <p class="footer-copy">&copy; 2026 ASA — Akademia Szkoleniowa Adrar. Wszelkie prawa zastrzeżone.</p>
+    <ul class="footer-links">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</footer>
+
+</body>
+</html>

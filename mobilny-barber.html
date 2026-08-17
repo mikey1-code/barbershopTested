@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umów Mobilnego Barbera — ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">ASA<span>Akademia Szkoleniowa Adrar</span></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html" class="active">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <p class="hero-eyebrow">Usługa Mobilna</p>
+    <h1 class="hero-title">Umów Mobilnego Barbera</h1>
+    <p class="hero-sub">Wypełnij formularz, a barber przyjedzie do Ciebie o wybranej godzinie. Potwierdzimy termin telefonicznie w ciągu 24 godzin.</p>
+</div>
+
+<section>
+    <div class="booking-layout">
+        <div class="booking-info">
+            <p class="section-eyebrow">Jak To Działa</p>
+            <h2 class="section-title">Trzy Proste Kroki</h2>
+            <div class="divider-center"></div>
+            <div class="booking-steps">
+                <div class="booking-step">
+                    <span class="step-num">01</span>
+                    <span class="step-text"><b>Wypełnij formularz</b> — podaj dane kontaktowe i adres wizyty.</span>
+                </div>
+                <div class="booking-step">
+                    <span class="step-num">02</span>
+                    <span class="step-text"><b>Potwierdzenie telefoniczne</b> — oddzwonimy, by ustalić szczegóły.</span>
+                </div>
+                <div class="booking-step">
+                    <span class="step-num">03</span>
+                    <span class="step-text"><b>Barber u Ciebie</b> — wizyta o wybranej godzinie, pod wskazanym adresem.</span>
+                </div>
+            </div>
+        </div>
+
+        <form class="booking-form" id="booking-form">
+            <a href="terminy.html" target="_blank" class="btn-ghost" style="text-align:center; margin-bottom: 6px;">Pokaż Zajęte Terminy</a>
+            <a href="booking.html" class="btn-ghost" style="text-align:center; margin-bottom: 6px;">Szukasz szkolenia? Umów Termin Szkolenia →</a>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Imię</label>
+                    <input type="text" id="imie" placeholder="Jan" required>
+                </div>
+                <div class="form-group">
+                    <label>Nazwisko</label>
+                    <input type="text" id="nazwisko" placeholder="Kowalski" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="jan@przyklad.pl" required>
+                </div>
+                <div class="form-group">
+                    <label>Numer Telefonu</label>
+                    <input type="tel" id="telefon" placeholder="+48 000 000 000" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adres Wizyty</label>
+                <input type="text" id="adres" placeholder="Ulica, numer, miasto" required>
+            </div>
+            <div class="form-group">
+                <label>Rodzaj Usługi</label>
+                <select id="usluga" required>
+                    <option value="">Wybierz rodzaj usługi</option>
+                    <option>Strzyżenie</option>
+                    <option>Strzyżenie + Broda</option>
+                    <option>Golenie Brzytwą</option>
+                    <option>Pakiet Premium</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Data Wizyty</label>
+                <input type="date" id="data" required>
+            </div>
+            <div class="form-group">
+                <label>Godzina</label>
+                <select id="godzina" required disabled>
+                    <option value="">Najpierw wybierz datę</option>
+                </select>
+            </div>
+            <div id="occupied-box" class="booked-times-info"></div>
+            <div class="form-group">
+                <label>Uwagi (opcjonalnie)</label>
+                <textarea id="uwagi" placeholder="Dodatkowe informacje..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 17px;" id="submit-btn">Umów wizytę</button>
+            <p id="form-message" style="text-align:center; font-size: 13px; margin-top: 4px;"></p>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">ASA</div>
+    <p class="footer-copy">&copy; 2026 ASA — Akademia Szkoleniowa Adrar. Wszelkie prawa zastrzeżone.</p>
+    <ul class="footer-links">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="booking.html">Umów Termin Szkolenia</a></li>
+        <li><a href="mobilny-barber.html">Mobilny Barber</a></li>
+        <li><a href="opinie.html">Opinie</a></li>
+        <li><a href="o-mnie.html">O Mnie</a></li>
+    </ul>
+</footer>
+
+<script>
+    const API_URL = "http://127.0.0.1:8000"
+    const TRAINING_DAYS = 5
+    const WORK_HOURS = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"]
+
+    // usługi, które oznaczają "szkolenie stacjonarne" (blokują 5 dni pod rząd)
+    // każda inna wartość `service` traktowana jest jako rezerwacja mobilnego barbera (blokuje tylko 1 godzinę danego dnia)
+    const TRAINING_SERVICES = [
+        "Szkolenie w pełni refundowane (100%)",
+        "Szkolenie częściowo refundowane (80%)",
+        "Szkolenie płatne"
+    ]
+    function isTraining(b){ return TRAINING_SERVICES.includes(b.service) }
+
+    const form = document.getElementById("booking-form")
+    const submitBtn = document.getElementById("submit-btn")
+    const message = document.getElementById("form-message")
+    const dateInput = document.getElementById("data")
+    const timeSelect = document.getElementById("godzina")
+    const occupiedBox = document.getElementById("occupied-box")
+
+    let bookings = []
+    let dayIsTrainingBlocked = false // true = tego dnia trwa szkolenie -> cały dzień niedostępny dla mobilnego barbera
+    let takenHours = new Set()       // godziny zajęte tego konkretnego dnia przez innych klientów mobilnego barbera
+
+    function pad(n){ return n.toString().padStart(2, "0") }
+
+    function getDateRange(startDateStr, days) {
+        const start = new Date(startDateStr + "T00:00:00")
+        const range = []
+        for (let i = 0; i < days; i++) {
+            const d = new Date(start)
+            d.setDate(d.getDate() + i)
+            range.push(`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`)
+        }
+        return range
+    }
+
+    async function loadBookings() {
+        try {
+            const response = await fetch(`${API_URL}/bookings/`)
+            bookings = await response.json()
+        } catch (error) {
+            console.error("Nie udało się pobrać rezerwacji:", error)
+            bookings = []
+        }
+    }
+
+    // sprawdza czy wybrany dzień wpada w 5-dniowy zakres jakiegoś szkolenia
+    function isDateInsideTraining(dateStr) {
+        return bookings.some(b => isTraining(b) && getDateRange(b.date, TRAINING_DAYS).includes(dateStr))
+    }
+
+    // zwraca zbiór godzin zajętych tego dnia przez inne rezerwacje mobilnego barbera
+    function getTakenHours(dateStr) {
+        const taken = new Set()
+        bookings.forEach(b => {
+            if (!isTraining(b) && b.date === dateStr) taken.add(b.time.slice(0, 5))
+        })
+        return taken
+    }
+
+    function rebuildTimeOptions() {
+        const selectedDate = dateInput.value
+        timeSelect.innerHTML = ""
+
+        if (!selectedDate) {
+            timeSelect.disabled = true
+            timeSelect.innerHTML = `<option value="">Najpierw wybierz datę</option>`
+            occupiedBox.classList.remove("visible")
+            return
+        }
+
+        dayIsTrainingBlocked = isDateInsideTraining(selectedDate)
+        occupiedBox.classList.add("visible")
+
+        if (dayIsTrainingBlocked) {
+            timeSelect.disabled = true
+            timeSelect.innerHTML = `<option value="">Brak dostępności tego dnia</option>`
+            occupiedBox.classList.remove("empty")
+            occupiedBox.textContent = "Tego dnia zaplanowane jest szkolenie stacjonarne — mobilny barber nie jest dostępny. Wybierz inny dzień."
+            return
+        }
+
+        takenHours = getTakenHours(selectedDate)
+        const freeHours = WORK_HOURS.filter(h => !takenHours.has(h))
+
+        timeSelect.disabled = false
+        timeSelect.innerHTML = `<option value="">Wybierz godzinę</option>` +
+            WORK_HOURS.map(h => `<option value="${h}" ${takenHours.has(h) ? "disabled" : ""}>${h}${takenHours.has(h) ? " — zajęte" : ""}</option>`).join("")
+
+        if (freeHours.length === 0) {
+            occupiedBox.classList.remove("empty")
+            occupiedBox.textContent = "Wszystkie godziny tego dnia są już zajęte — wybierz inny dzień."
+        } else {
+            occupiedBox.classList.add("empty")
+            occupiedBox.textContent = `✓ Wolne godziny tego dnia: ${freeHours.join(", ")}`
+        }
+    }
+
+    dateInput.addEventListener("change", async () => {
+        occupiedBox.classList.add("visible")
+        occupiedBox.textContent = "Sprawdzanie dostępności..."
+        timeSelect.disabled = true
+        await loadBookings()
+        rebuildTimeOptions()
+    })
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault()
+
+        message.textContent = ""
+
+        const selectedDate = dateInput.value
+        const selectedTime = timeSelect.value
+
+        if (dayIsTrainingBlocked) {
+            message.style.color = "#808080"
+            message.textContent = "Tego dnia trwa szkolenie — wybierz inny dzień."
+            return
+        }
+        if (!selectedTime) {
+            message.style.color = "#808080"
+            message.textContent = "Wybierz godzinę wizyty."
+            return
+        }
+        if (takenHours.has(selectedTime)) {
+            message.style.color = "#808080"
+            message.textContent = "Ta godzina właśnie została zarezerwowana — wybierz inną."
+            return
+        }
+
+        submitBtn.disabled = true
+        submitBtn.textContent = "Wysyłanie..."
+
+        const imie = document.getElementById("imie").value
+        const nazwisko = document.getElementById("nazwisko").value
+        const email = document.getElementById("email").value
+        const telefon = document.getElementById("telefon").value
+        const adres = document.getElementById("adres").value
+        const usluga = document.getElementById("usluga").value
+        const uwagi = document.getElementById("uwagi").value
+
+        try {
+            // KROK 1 - tworzymy usera w backendzie
+            const userResponse = await fetch(`${API_URL}/users/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: imie,
+                    surname: nazwisko,
+                    email: email,
+                    phone: telefon
+                })
+            })
+
+            if (!userResponse.ok) throw new Error("Błąd przy tworzeniu użytkownika")
+            const user = await userResponse.json()
+
+            // KROK 2 - tworzymy booking podpięty pod usera
+            // service NIE może być jedną z wartości TRAINING_SERVICES, żeby był poprawnie
+            // rozpoznany jako rezerwacja mobilnego barbera (blokuje tylko 1 godzinę, nie 5 dni)
+            const bookingResponse = await fetch(`${API_URL}/bookings/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    time: selectedTime,
+                    service: `Mobilny Barber - ${usluga}`,
+                    address: adres,
+                    notes: uwagi,
+                    user_id: user.id
+                })
+            })
+
+            if (!bookingResponse.ok) throw new Error("Błąd przy tworzeniu rezerwacji")
+
+            message.style.color = "#ffffff"
+            message.textContent = "✓ Zgłoszenie wysłane! Zadzwonimy, aby potwierdzić termin wizyty."
+            form.reset()
+            timeSelect.disabled = true
+            timeSelect.innerHTML = `<option value="">Najpierw wybierz datę</option>`
+            occupiedBox.classList.remove("visible")
+
+        } catch (error) {
+            message.style.color = "#808080"
+            message.textContent = "Coś poszło nie tak. Sprawdź czy backend działa i spróbuj ponownie."
+            console.error(error)
+        } finally {
+            submitBtn.disabled = false
+            submitBtn.textContent = "Umów wizytę"
+        }
+    })
+</script>
+
+</body>
+</html>
